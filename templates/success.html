@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>Welcome</title>
+</head>
+<body >
+<h1><b>Welcome {{ user_id }}!</b></h1>
+
+    {% if not registered %}
+        <h3 >Your registration was successful.</h3>
+    {% else %}
+        <p >You are already registered with the email you used.</p>
+    {% endif %}
+</body>
+</html>

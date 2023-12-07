@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>Home</title>
+</head>
+<body>
+<h1>Welcome to The User Registration Section</h1>
+
+<form action="/register/" method="post" enctype="multipart/form-data">
+<!--    Full Name,Email,Password,Phone,Profile_picture-->
+    <label for="fullname"> Full Name:</label>
+    <input type="text" id="fullname" name="fullname" required>
+    <br>
+    <label for="email">E-mail: </label>
+    <input type="text" id="email" name="email">
+    <br>
+    <label for="password">Password: </label>
+    <input type="text" id="password" name="password">
+    <br>
+    <label for="Phone">Phone Number: </label>
+    <input type="number" id="Phone" name="phone">
+    <br>
+    <label for="file">Profile Picture:</label>
+    <input type="file" id="file" name="profile" accept="image/*" required><br>
+    <br>
+    <input type="submit" value="Upload">
+</form>
+</body>
+
+</html>
