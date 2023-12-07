@@ -1,51 +1,52 @@
+body {
+    background-color: #f0f8ff;
+}
 
-    body{
-        background-color: #f0f8ff;
-    }
-input[type=text], select {
-    width: 100%;
+.input-select-text, .input-select-number {
     padding: 12px 20px;
     margin: 8px 0;
-    border: 1px solid #ccc;
     border-radius: 4px;
+    border: 1px solid;
 }
-input[type=number], select {
+
+.input-select-text {
+    width: 100%;
+    border-color: #ccc;
+}
+
+.input-select-number {
     width: 50%;
+    border-color: #ccf;
     padding: 6px 10px;
     margin: 4px 0;
-    border: 1px solid #ccf;
     border-radius: 3px;
 }
 
-input[type=submit] {
+.input-submit {
     width: 50%;
+    height: 50px;
     background-color: #ff8c00;
-    margin: auto;
-    display: block;
-    height:50px;
     color: white;
     padding: 6px 10px;
-    margin: 4px 0;
-    border: none;
+    margin: 30px;
+    display: block;
+    border: 50px;
     border-radius: 3px;
     cursor: pointer;
     text-align: center;
 }
 
-input[type=file] {
-    width:100%;
+.input-file {
+    width: 100%;
     background-color: #ddd;
     color: white;
     text-align: center;
-
 }
-    h1{
-        text-align: center;
-        color: #ff8c00;
-    }
-    h3{
-        text-align: center;
-    }
-    p{
-        text-align: center;
-    }
+
+.center-text {
+    text-align: center;
+}
+
+h1 {
+    color: #ff8c00;
+}

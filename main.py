@@ -1,10 +1,8 @@
 from fastapi import FastAPI, Request, Form, File, UploadFile
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from motor.motor_asyncio import AsyncIOMotorClient
-import databases
-import sqlalchemy
 from sqlalchemy import create_engine, Column, Integer, String, MetaData, select
 from databases import Database
 from sqlalchemy.ext.declarative import declarative_base
@@ -57,18 +55,20 @@ async def home(request: Request):
 
 @app.post("/register/", response_class=HTMLResponse)
 async def registered(
-        request: Request,
-        fullname: str = Form(...),
-        email: str = Form(...),
-        password: str = Form(...),
-        phone: str = Form(...),
-        profile: UploadFile = File(...),
+    request: Request,
+    fullname: str = Form(...),
+    email: str = Form(...),
+    password: str = Form(...),
+    phone: str = Form(...),
+    profile: UploadFile = File(...),
 ):
     query = select(User).where(User.email == email)
     result = await database.fetch_one(query)
     if result:
-        return templates.TemplateResponse("success.html", {"request": request, "user_id": result["fullname"], "registered": True})
-
+        return templates.TemplateResponse(
+            "success.html",
+            {"request": request, "user_id": result["fullname"], "registered": True},
+        )
 
     # Save to PostgreSQL
     query = User.__table__.insert().values(
@@ -79,4 +79,6 @@ async def registered(
     contents = await profile.read()
     user_data = {"profile": contents}
     await collection.insert_one(user_data)
-    return templates.TemplateResponse("success.html", {"request": request, "user_id": fullname})
+    return templates.TemplateResponse(
+        "success.html", {"request": request, "user_id": fullname}
+    )
