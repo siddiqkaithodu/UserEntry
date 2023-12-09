@@ -5,5 +5,5 @@ uvicorn
 psycopg2-binary
 python-multipart
 motor
-
+pillow
 

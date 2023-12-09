@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2>Users</h2>
+            <table>
+                <tr>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Profile Picture</th>
+                </tr>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.fullname }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phone }}</td>
+                        <td>
+                            {% if user.profile %}
+                                <img src="data:image/png;base64,{{ user.profile|b64encode }}" alt="profile picture" width="100" height="100">
+
+                                    {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
