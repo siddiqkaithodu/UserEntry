@@ -2,13 +2,22 @@ import base64
 from io import BytesIO
 
 from databases import Database
-from fastapi import FastAPI, File, Form, Request, UploadFile
+from fastapi import FastAPI
+from fastapi import File
+from fastapi import Form
+from fastapi import Request
+from fastapi import UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from motor.motor_asyncio import AsyncIOMotorClient
 from PIL import Image
-from sqlalchemy import Column, Integer, MetaData, String, create_engine, select
+from sqlalchemy import Column
+from sqlalchemy import create_engine
+from sqlalchemy import Integer
+from sqlalchemy import MetaData
+from sqlalchemy import select
+from sqlalchemy import String
 from sqlalchemy.ext.declarative import declarative_base
 
 app = FastAPI()
