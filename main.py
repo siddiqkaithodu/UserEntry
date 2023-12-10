@@ -30,7 +30,6 @@ mongo_client = AsyncIOMotorClient("mongodb://username:password@mongodb:27017")
 db = mongo_client["database"]
 collection = db["Profile"]
 
-
 DATABASE_URL = "postgresql://username:password@postgres:5432/database"
 
 database = Database(DATABASE_URL)
@@ -70,12 +69,12 @@ async def home(request: Request):
 
 @app.post("/register/", response_class=HTMLResponse)
 async def registered(
-    request: Request,
-    fullname: str = Form(...),
-    email: str = Form(...),
-    password: str = Form(...),
-    phone: str = Form(...),
-    profile: UploadFile = File(...),
+        request: Request,
+        fullname: str = Form(...),
+        email: str = Form(...),
+        password: str = Form(...),
+        phone: str = Form(...),
+        profile: UploadFile = File(...),
 ):
     query = select(User).where(User.email == email or User.phone == phone)
 
@@ -83,21 +82,27 @@ async def registered(
     if result:
         return templates.TemplateResponse(
             "success.html",
-            {"request": request, "user_id": result["fullname"], "registered": True},
+            {
+                "request": request,
+                "user_id": result["fullname"],
+                "registered": True
+            },
         )
 
     # Save to PostgresSQL
-    query = User.__table__.insert().values(
-        fullname=fullname, email=email, password=password, phone=phone
-    )
+    query = User.__table__.insert().values(fullname=fullname,
+                                           email=email,
+                                           password=password,
+                                           phone=phone)
     await database.execute(query)
     # Save to MongoDB
     contents = await profile.read()
     user_data = {"profile": contents, "email": email}
     await collection.insert_one(user_data)
-    return templates.TemplateResponse(
-        "success.html", {"request": request, "user_id": fullname}
-    )
+    return templates.TemplateResponse("success.html", {
+        "request": request,
+        "user_id": fullname
+    })
 
 
 @app.get("/users/", response_class=HTMLResponse)
@@ -107,9 +112,11 @@ async def users(request: Request):
 
     # Fetch all user profiles from MongoDB in a single query
     user_emails = [user.email for user in users_result]
-    profiles_result = await collection.find({"email": {"$in": user_emails}}).to_list(
-        length=len(user_emails)
-    )
+    profiles_result = await collection.find({
+        "email": {
+            "$in": user_emails
+        }
+    }).to_list(length=len(user_emails))
 
     # Combine user data and profiles into a single dictionary
     user_data = {user["email"]: dict(user) for user in users_result}
@@ -118,6 +125,7 @@ async def users(request: Request):
         base64_image = base64.b64encode(image_data).decode("utf-8")
         user_data[profile["email"]]["profile"] = base64_image
         # user_data[profile["email"]]["profile"] = Image.open(BytesIO(profile["profile"])).tobytes()
-    return templates.TemplateResponse(
-        "users.html", {"request": request, "users": user_data.values()}
-    )
+    return templates.TemplateResponse("users.html", {
+        "request": request,
+        "users": user_data.values()
+    })
