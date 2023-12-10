@@ -8,6 +8,7 @@ from databases import Database
 from sqlalchemy.ext.declarative import declarative_base
 from PIL import Image
 from io import BytesIO
+import base64
 
 app = FastAPI()
 
@@ -65,7 +66,6 @@ async def registered(
     phone: str = Form(...),
     profile: UploadFile = File(...),
 ):
-
     query = select(User).where(User.email == email or User.phone == phone)
 
     result = await database.fetch_one(query)
@@ -96,12 +96,17 @@ async def users(request: Request):
 
     # Fetch all user profiles from MongoDB in a single query
     user_emails = [user.email for user in users_result]
-    profiles_result = await collection.find({"email": {"$in": user_emails}}).to_list(length=len(user_emails))
+    profiles_result = await collection.find({"email": {"$in": user_emails}}).to_list(
+        length=len(user_emails)
+    )
 
     # Combine user data and profiles into a single dictionary
     user_data = {user["email"]: dict(user) for user in users_result}
     for profile in profiles_result:
-        user_data[profile["email"]]["profile"] = Image.open(BytesIO(profile["profile"])).tobytes()
-    return templates.TemplateResponse("users.html", {"request": request, "users": user_data.values()})
-
-
+        image_data = profile["profile"]
+        base64_image = base64.b64encode(image_data).decode("utf-8")
+        user_data[profile["email"]]["profile"] = base64_image
+        # user_data[profile["email"]]["profile"] = Image.open(BytesIO(profile["profile"])).tobytes()
+    return templates.TemplateResponse(
+        "users.html", {"request": request, "users": user_data.values()}
+    )
