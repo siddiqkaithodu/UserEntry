@@ -1,14 +1,15 @@
-from fastapi import FastAPI, Request, Form, File, UploadFile
+import base64
+from io import BytesIO
+
+from databases import Database
+from fastapi import FastAPI, File, Form, Request, UploadFile
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from motor.motor_asyncio import AsyncIOMotorClient
-from sqlalchemy import create_engine, Column, Integer, String, MetaData, select
-from databases import Database
-from sqlalchemy.ext.declarative import declarative_base
 from PIL import Image
-from io import BytesIO
-import base64
+from sqlalchemy import Column, Integer, MetaData, String, create_engine, select
+from sqlalchemy.ext.declarative import declarative_base
 
 app = FastAPI()
 
