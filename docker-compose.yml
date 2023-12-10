@@ -14,16 +14,16 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: your_database
-      POSTGRES_USER: your_username
-      POSTGRES_PASSWORD: your_password
-      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: database
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
 
   mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
     environment:
-        MONGO_INITDB_DATABASE: your_database
-        MONGO_INITDB_ROOT_USERNAME: your_username
-        MONGO_INITDB_ROOT_PASSWORD: your_password
+      MONGO_INITDB_DATABASE: database
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
+      DOCKER_COMPOSE_WAIT_FOR_STARTUP_TIMEOUT: 300
