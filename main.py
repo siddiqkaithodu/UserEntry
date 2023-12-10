@@ -72,8 +72,7 @@ async def registered(
     if result:
         return templates.TemplateResponse(
             "success.html",
-            {"request": request,
-                "user_id": result["fullname"], "registered": True},
+            {"request": request, "user_id": result["fullname"], "registered": True},
         )
 
     # Save to PostgresSQL
